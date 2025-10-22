@@ -1,13 +1,38 @@
 {% extends 'base.html' %}
 
 {% block head %}
-        <h1>Template</h1>
+        <title>Template</title>
 {% endblock %}
 
 {% block body %}
-        <h1>Hello, world!</h1>
-        <p>This is my first web page.</p>
-        <p>It contains a
-             <strong>main heading</strong> and <em> paragraph </em>.
-        </p>
+        <div class="content">
+                <h1>Task Manager</h1>
+                {% if tasks|length < 1 %}
+                 <h1>There is no task yet. Create one below.</h1>
+                {% else %}
+                <table>
+                        <tr>
+                                <th>Task ID</th>
+                                <th>Added</th>
+                                <th>Actions</th>
+                        </tr>
+                        {% for task in tasks %}
+                        <tr>
+                                <td>{{ task.content }}</td>
+                                <td>{{ task.date_created.date() }}</td>
+                                <td>
+                                        <a href="/delete/{{task.id}}">Delete</a>
+                                        <br>
+                                        <a href="/update/{{task.id}}">Update</a>
+                                </td>
+                        </tr>
+                        {% endfor %}
+                </table>
+                {% endif %}
+                <form action="/" method="POST">
+                        <input type="text" name="content" id="content">
+                        <input type="submit" name="Add Task">
+
+                </form>
+        </div>
 {% endblock %}
